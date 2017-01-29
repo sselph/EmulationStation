@@ -6,8 +6,12 @@
 #include <boost/assign.hpp>
 
 #include "GamesDBScraper.h"
+#include "SselphScraper.h"
 
 const std::map<std::string, generate_scraper_requests_func> scraper_request_funcs = boost::assign::map_list_of
+	("(Auto)TheGamesDB", &sselph_generate_gdb_requests)
+        ("(Auto)ScreenScraper", &sselph_generate_ss_requests)
+        ("(Auto)MameDB", &sselph_generate_mamedb_requests)
 	("TheGamesDB", &thegamesdb_generate_scraper_requests);
 
 std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params)
@@ -288,4 +292,29 @@ std::string getSaveAsPath(const ScraperSearchParams& params, const std::string& 
 
 	path += name + ext;
 	return path;
+}
+
+void ScraperInit()
+{
+	const std::string name = Settings::getInstance()->getString("Scraper");
+	if (name == "(Auto)TheGamesDB") {
+		SSelphInit(1);
+	} else if (name == "(Auto)ScreenScraper") {
+		SSelphInit(0);
+	} else if (name == "(Auto)MameDB") {
+		SSelphInit(2);
+	}
+}
+
+void ScraperClose()
+{
+	SSelphClose();
+}
+
+bool IsAutoScraper()
+{
+	const std::string name = Settings::getInstance()->getString("Scraper");
+	if (name.substr(0, 6) == "(Auto)")
+		return true;
+	return false;
 }

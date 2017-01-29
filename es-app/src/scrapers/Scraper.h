@@ -25,6 +25,7 @@ struct ScraperSearchResult
 	MetaDataList mdl;
 	std::string imageUrl;
 	std::string thumbnailUrl;
+	bool crcMatched;
 };
 
 // So let me explain why I've abstracted this so heavily.
@@ -154,3 +155,7 @@ std::unique_ptr<MDResolveHandle> resolveMetaDataAssets(const ScraperSearchResult
 //Will overwrite the image at [path] with the new resized one.
 //Returns true if successful, false otherwise.
 bool resizeImage(const std::string& path, int maxWidth, int maxHeight);
+
+void ScraperInit();
+void ScraperClose();
+bool IsAutoScraper();

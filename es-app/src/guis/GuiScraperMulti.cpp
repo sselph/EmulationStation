@@ -18,6 +18,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 {
 	assert(mSearchQueue.size());
 
+	approveResults &= !IsAutoScraper();
 	addChild(&mBackground);
 	addChild(&mGrid);
 
@@ -68,6 +69,7 @@ GuiScraperMulti::GuiScraperMulti(Window* window, const std::queue<ScraperSearchP
 	setSize(Renderer::getScreenWidth() * 0.95f, Renderer::getScreenHeight() * 0.849f);
 	setPosition((Renderer::getScreenWidth() - mSize.x()) / 2, (Renderer::getScreenHeight() - mSize.y()) / 2);
 
+	ScraperInit();
 	doNextSearch();
 }
 
@@ -147,6 +149,7 @@ void GuiScraperMulti::finish()
 		"OK", [&] { delete this; }));
 
 	mIsProcessing = false;
+	ScraperClose();
 }
 
 std::vector<HelpPrompt> GuiScraperMulti::getHelpPrompts()

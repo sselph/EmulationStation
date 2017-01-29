@@ -30,6 +30,7 @@ set(ES_HEADERS
     # Scrapers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBScraper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/SselphScraper.h
 
     # Views
     ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/BasicGameListView.h
@@ -76,6 +77,7 @@ set(ES_SOURCES
     # Scrapers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBScraper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/SselphScraper.cpp
 
     # Views
     ${CMAKE_CURRENT_SOURCE_DIR}/src/views/gamelist/BasicGameListView.cpp
@@ -98,9 +100,9 @@ endif()
 
 #-------------------------------------------------------------------------------
 # define target
-include_directories(${COMMON_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${COMMON_INCLUDE_DIRS} ${SCRAPER_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_executable(emulationstation ${ES_SOURCES} ${ES_HEADERS})
-target_link_libraries(emulationstation ${COMMON_LIBRARIES} es-core)
+target_link_libraries(emulationstation ${COMMON_LIBRARIES} ${SCRAPER_LIBRARY} es-core)
 
 # special properties for Windows builds
 if(MSVC)
